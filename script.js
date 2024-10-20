@@ -35,7 +35,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/fireba
             setTimeout(function () {
                 document.getElementById("loading").style.display = 'none';
                 document.getElementById("success").style.display = 'flex';
-                document.getElementById("name").textContent = userName;
+                document.getElementById("displayName").textContent = userName;
             }, 5000);
         });
 
