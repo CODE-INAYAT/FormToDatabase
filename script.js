@@ -46,21 +46,6 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/fireba
             document.getElementById("accessForm").reset();
         });
 
-// Input formatting functions
-function convertToUpperCaseAndRemoveNumbers(input) {
-    input.value = input.value.replace(/[0-9]/g, '').toUpperCase();
-    input.setAttribute("maxlength", "30");
-}
-
-function convertToLowerCaseAndRemoveSpaces(input) {
-    input.value = input.value.replace(/\s/g, '').toLowerCase(); // Convert to lowercase and remove spaces
-    input.setAttribute("maxlength", "50"); // Set maxlength = 50
-}
-
-function removeSpaces(input) {
-    input.value = input.value.replace(/\s/g, '');
-}
-
 // Security measures
 document.addEventListener('keydown', e => {
     if (e.keyCode === 123 ||
@@ -85,3 +70,18 @@ document.addEventListener('keydown', e => {
         alert('Printing is disabled on this page.');
     }
 });
+
+// Input formatting functions
+function convertToUpperCaseAndRemoveNumbers(input) {
+    input.value = input.value.replace(/[0-9]/g, '').toUpperCase();
+    input.setAttribute("maxlength", "30");
+}
+
+function convertToLowerCaseAndRemoveSpaces(input) {
+    input.value = input.value.replace(/\s/g, '').toLowerCase(); // Convert to lowercase and remove spaces
+    input.setAttribute("maxlength", "50"); // Set maxlength = 50
+}
+
+function removeSpaces(input) {
+    input.value = input.value.replace(/\s/g, '');
+}
