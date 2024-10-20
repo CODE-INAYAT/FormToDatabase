@@ -47,7 +47,7 @@
                 </div>
 
                 <div class="relative z-0">
-                    <input type="email" id="email" maxlength="50" name="Email" required onclick="showInfoModal()"
+                    <input type="email" id="email" maxlength="50" name="Email" required
                         oninput="convertToLowerCaseAndRemoveSpaces(this)"
                         class="block py-2.5 px-0 w-full text-base text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                         placeholder=" " autocomplete="off" />
@@ -168,8 +168,8 @@
                 <div class="p-3 md:p-5 space-y-4 text-center">
                     <p class="text-base leading-relaxed ">
                         Dear <span id="displayName"
-                            class="bg-blue-100 text-blue-800 font-medium me-2 px-1.5 py-0.5 rounded"></span>You Have Successfully
-                            Registered! And Your Data Has Been Saved In Database...
+                            class="bg-blue-100 text-blue-800 font-medium me-2 px-1.5 py-0.5 rounded"></span>You Have
+                        Successfully Registered! And Your Data Has Been Saved In Database...
                     </p>
                     <div
                         class="flex flex-col sm:flex-row justify-center items-center space-y-2 sm:space-y-0 sm:space-x-4">
@@ -191,6 +191,89 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
     <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script>
-    <script src="script.js" type="module"></script>
+    <script src="script.js"></script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+        import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
+
+        // API Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDMCEE7Fv6ntyEAU-moDjizJrRJE3s9MRI",
+            authDomain: "isk-database.firebaseapp.com",
+            projectId: "isk-database",
+            storageBucket: "isk-database.appspot.com",
+            messagingSenderId: "98152645649",
+            appId: "1:98152645649:web:9c0a3af4f562aeac725db0"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        function validateForm() {
+            const nameInput = document.getElementById("name");
+            const emailInput = document.getElementById("email");
+            const branchSelect = document.getElementById("branch");
+            const yearSelect = document.getElementById("year");
+
+            if (nameInput.value.length < 2) {
+                alert("Please enter a proper name (at least 2 characters).");
+                return false;
+            }
+            const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            if (!emailPattern.test(emailInput.value)) {
+                alert("Please enter a valid email address.");
+                return false;
+            }
+            if (branchSelect.value === "Your Branch" || yearSelect.value === "Your Year") {
+                alert("Please select your Branch and Year before submitting.");
+                return false;
+            }
+
+            return true; // All validations passed
+        }
+        document.getElementById("submit").addEventListener('click', function (e) {
+            e.preventDefault();
+
+            if (!validateForm()) {
+                // If validation fails, do not proceed
+                return;
+            }
+            document.getElementById("loading").style.display = 'flex';
+            console.log("Data sending to Database");
+            document.getElementById("details-form").style.display = 'none';
+
+            // Get user details
+            const userName = document.getElementById("name").value;
+            const userEmail = document.getElementById("email").value;
+            const userBranch = document.getElementById("branch").value;
+            const userYear = document.getElementById("year").value;
+
+            // Save to Firebase
+            set(ref(db, 'user/' + userName), {
+                username: userName,
+                email: userEmail,
+                branch: userBranch,
+                year: userYear
+            });
+
+            setTimeout(function () {
+                document.getElementById("loading").style.display = 'none';
+                document.getElementById("success").style.display = 'flex';
+                console.log("Data send to Database");
+                document.getElementById("displayName").textContent = userName;
+            }, 5000);
+        });
+
+        document.querySelector('#success a').addEventListener('click', function (e) {
+            e.preventDefault();
+            document.getElementById("success").style.display = 'none';
+            document.getElementById("details-form").style.display = 'flex';
+
+            document.getElementById("accessForm").reset();
+        });
+    </script>
+
 </body>
+
 </html>
