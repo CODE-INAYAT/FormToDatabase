@@ -191,57 +191,6 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
     <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script>
-    <script src="script.js"></script>
-    <script type="module">
-
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
-        import { getDatabase, ref, set, get, child } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
-
-        // API
-        const firebaseConfig = {
-            apiKey: "AIzaSyBQsKFqSksq-mJHWiXZJBq7uQXI1VscfNI",
-            authDomain: "formdatabase-9286d.firebaseapp.com",
-            projectId: "formdatabase-9286d",
-            storageBucket: "formdatabase-9286d.appspot.com",
-            messagingSenderId: "79926329148",
-            appId: "1:79926329148:web:33bb11f4d0f3f353ac6839"
-        };
-
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const db = getDatabase(app);
-        document.getElementById("submit").addEventListener('click', function (e) {
-            e.preventDefault();
-            document.getElementById("loading").style.display = 'flex';
-            document.getElementById("details-form").style.display = 'none';
-
-            // Get user details
-            const userName = document.getElementById("name").value;
-            const userEmail = document.getElementById("email").value;
-            const userBranch = document.getElementById("branch").value;
-            const userYear = document.getElementById("year").value;
-
-            set(ref(db, 'user/' + userName), {
-                username: userName,
-                email: userEmail,
-                branch: userBranch,
-                year: userYear
-            });
-
-            setTimeout(function () {
-                document.getElementById("loading").style.display = 'none';
-                document.getElementById("success").style.display = 'flex';
-                document.getElementById("name").textContent = userName;
-            }, 5000);
-        });
-
-        document.querySelector('#success a').addEventListener('click', function (e) {
-            e.preventDefault();
-            document.getElementById("success").style.display = 'none';
-            document.getElementById("details-form").style.display = 'flex';
-            document.getElementById("accessForm").reset();
-        });
-    </script>
+    <script src="script.js" type="module"></script>
 </body>
-
 </html>
